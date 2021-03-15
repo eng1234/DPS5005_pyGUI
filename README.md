@@ -1,8 +1,14 @@
-# DPS5005_pyGUI
-A python GUI to display &amp; control DPS5005 power supply
+# DPS5005_pyGUI -- Modded for Rockseed RS305P
+A python GUI to display &amp; control RS305P power supply
 
-* Hardware: DPS5005
-* Software: v1.6
+* Hardware: RS305P
+* Software: v1.6.1 RS305P
+
+Test with RS305P - probably works on HANMATEK HM305P
+
+## Mods from DPS5005_pyGUI
+
+Changed modbus addressing to work with Rockseed RS305P
 
 Additional settings within hardware:
 * hold 'up' arrow while powering on to access interface setup area. 
@@ -29,7 +35,7 @@ What can it do:
 * select slave address (must match hardware configuration)
 * Connect - automatically searches and connects to port (button status shows 'Connected' or 'Disconnected')
 (only tested in linux but should work with windows)
-* New feature - serial port can be fixed by modifying 'port_set' parameter within 'dps5005_limits.ini'
+* New feature - serial port can be fixed by modifying 'port_set' parameter within 'RS305P_limits.ini'
 
 <img src="images/CSVview.png">
 
@@ -68,12 +74,12 @@ Check out http://batteryuniversity.com for more information.
 Disclaimer: User is responsible for safety. Program allows flexibility choose your values carefully.
 
 ## Using other 'DPSxxxx' units
-Configuring this program for other 'DPSxxxx' units should hopefully be straight forward to achieve by modifying the parameters within this file 'dps5005_limits.ini'. 
+Configuring this program for other 'DPSxxxx' units should hopefully be straight forward to achieve by modifying the parameters within this file 'RS305P_limits.ini'. 
 * adjust the safety levels, Max/Min values
 * adjust the decimal point position
 
 ## Chart colours
-The background, axis & pen colours and line (pen) width may be manipulated within the Section Three of the 'dps5005_limits.ini' file. Two examples exist.
+The background, axis & pen colours and line (pen) width may be manipulated within the Section Three of the 'RS305P_limits.ini' file. Two examples exist.
 * background colour
 * axis colour
 * pen colour
@@ -110,14 +116,14 @@ pip3 install -r requirements.txt
 * dps_GUI.ui         - QT designer v5.9.2
 * dps_GUI_program.py - Python 2.7.14
 * dps_modbus.py      - Python 2.7.14
-* dps5005_limits.ini - text file
+* RS305P_limits.ini - text file
 
 ## Download & run:
 ```
-git clone https://github.com/lambcutlet/DPS5005_pyGUI
+git clone https://github.com/lambcutlet/RS305P_pyGUI
 ```
 ```
-cd DPS5005_pyGUI/source_files/
+cd RS305P_pyGUI/source_files/
 ```
 ```
 python dps_GUI_program.py
