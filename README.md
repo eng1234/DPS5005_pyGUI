@@ -120,6 +120,8 @@ pip3 install -r requirements.txt
 
 ## Download & run:
 
+Clone the repo
+
 ```
 cd RS305P_pyGUI/source_files/
 ```
