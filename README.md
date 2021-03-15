@@ -4,13 +4,18 @@ A python GUI to display &amp; control RS305P power supply
 * Hardware: RS305P
 * Software: v1.6.1 RS305P
 
-Test with RS305P - probably works on HANMATEK HM305P
+Tested with RS305P - probably works on HANMATEK HM305P
 
 ## Mods from DPS5005_pyGUI
 
 Changed modbus addressing to work with Rockseed RS305P
 
-Additional settings within hardware:
+## TODO 
+
+Make RS305P or DPS5005 selection within ini file ?
+
+## Additional settings within hardware
+
 * hold 'up' arrow while powering on to access interface setup area. 
 * Modbus unit ID, baud rate, BT pin etc. 
 * Press 'set' twice in succession to exit.
