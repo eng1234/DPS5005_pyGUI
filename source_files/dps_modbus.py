@@ -52,7 +52,9 @@ class Serial_modbus:
 		return res
 		
 	def read_block(self, reg_addr, size_of_block):
-		return self.instrument.read_registers(reg_addr, size_of_block)
+		#res = self.instrument.read_registers(reg_addr, 32)
+		res = self.instrument.read_registers(reg_addr, size_of_block)
+		return res
 			
 	def write(self, reg_addr, value, decimal_places):
 		self.instrument.write_register(reg_addr, value, decimal_places) # register, value, No_of_decimal_places
@@ -94,7 +96,7 @@ class Dps5005:
 		return self.function(0x08, 0)
 
 	def onoff(self, RWaction='r', value=0):	# R/W
-		return self.function(0x09, 0, RWaction, value, self.limits.onoff_set_max, self.limits.onoff_set_min) # reg_addr, decimal_places, RWaction, value, max_value, min_value
+		return self.function(0x00, 0, RWaction, value, self.limits.onoff_set_max, self.limits.onoff_set_min) # reg_addr, decimal_places, RWaction, value, max_value, min_value
 		
 	def b_led(self, RWaction='r', value=0):	# R/W
 		return self.function(0x0A, 0, RWaction, value, self.limits.b_led_set_max, self.limits.b_led_set_min) # reg_addr, decimal_places, RWaction, value, max_value, min_value
@@ -135,19 +137,23 @@ class Dps5005:
 		return self.function(0x57, 0, RWaction, value, self.limits.s_ini_set_max, self.limits.s_ini_set_min) # reg_addr, decimal_places, RWaction, value, max_value, min_value
 
 	def read_all(self, RWaction='r', value=0.0):	# Read data as a block, much faster than individual reads
-		data = self.functions(0x00, 16, RWaction, value) # reg_addr, number of bytes, RWaction, value
+		data = self.functions(0x00, 64, RWaction, value) # reg_addr, number of bytes, RWaction, value
 		#--- adjust values to floating points
-		data[0] = data[0] / float(10**self.limits.decimals_vset)	#100.0	# voltage_set
-		data[1] = data[1] / float(10**self.limits.decimals_iset)	#1000.0	# current_set
-		data[2] = data[2] / float(10**self.limits.decimals_v)	#100.0	# voltage
-		data[3] = data[3] / float(10**self.limits.decimals_i)	#1000.0	# current
-		data[4] = data[4] / float(10**self.limits.decimals_power)	#100.0	# power
-		data[5] = data[5] / float(10**self.limits.decimals_vin)	#100.0	# voltage_in
-		data[12] = data[12] / float(10**self.limits.decimals_version)	#10.0	# version
+		# print(data) #ajr #todo
+		#todo change !
+		data[9] = data[1] # on off
+		data[12] = data[2] / float(10**self.limits.decimals_version)	#10.0	# version
+
+		data[0] = data[48] / float(10**self.limits.decimals_vset)	#100.0	# voltage_set
+		data[1] = data[49] / float(10**self.limits.decimals_iset)	#1000.0	# current_set
+		data[2] = data[0x10] / float(10**self.limits.decimals_v)	#100.0	# voltage
+		data[3] = data[0x11] / float(10**self.limits.decimals_i)	#1000.0	# current
+		data[4] = data[0x12] / float(10**self.limits.decimals_power)	#100.0	# power
+		data[5] = data[0x10] / float(10**self.limits.decimals_vin)	#100.0	# voltage_in
 		return data
 	
 	def write_voltage_current(self, RWaction='r', value=0):	# write voltage & current as a block
-		reg_addr = 0x00 
+		reg_addr = 48 # 0x00
 		# added safety limits - any excursion results in zero
 		if value[0] > self.limits.voltage_set_max or value[0] < self.limits.voltage_set_min: 
 			value[0] = 0

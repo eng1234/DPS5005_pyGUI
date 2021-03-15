@@ -426,8 +426,11 @@ class dps_GUI(QMainWindow):
 			csvReader = csv.reader(f)#, delimiter=',')  # reads file
 			next(csvReader, None)                       # skips header
 			data_list = list(csvReader)
+			t = 0                             # TIMES ARE DELTAS NOT ABSOLUTE
 			for row in data_list:
 				if len(row) > 2:
+					row[0] = str(int(row[0]) + t)
+					t = int(row[0])
 					self.CSV_list.append(row)
 			#self.CSV_list = data_list
 		self.labelCSV(len(self.CSV_list))   
@@ -539,9 +542,10 @@ class dps_GUI(QMainWindow):
 #--- read & display values from DPS 
 	def read_all(self):
 		data = self.pass_2_dps('read_all')
-		if data != False:       
-			self.vout = ("%5.2f" % data[2]) # vout
-			self.iout = ("%5.3f" % data[3]) # iout
+		if data != False:
+#			print("more", data)
+			self.vout = ("%5.2f" % data[2]) #			 vout
+			self.iout = ("%5.3f" % data[3]) # iout #todo
 			
 			self.accrued_capacity(self.iout)
 			
@@ -584,7 +588,7 @@ class dps_GUI(QMainWindow):
 				self.label_cccv.setText('Mode        :   CV')
 
 		# on/off    
-			value = data[9]
+			value = data[9] #ajr #todo
 			if value == 1:
 				self.label_onoff.setText('Output      :   ON')  # on/off
 				self.pushButton_onoff.setChecked(True)
