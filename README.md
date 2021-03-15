@@ -120,8 +120,7 @@ pip3 install -r requirements.txt
 
 ## Download & run:
 ```
-git clone https://github.com/lambcutlet/RS305P_pyGUI
-```
+
 ```
 cd RS305P_pyGUI/source_files/
 ```
