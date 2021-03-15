@@ -43,11 +43,13 @@ class Serial_modbus:
 		#self.instrument.serial.port          # this is the serial port name
 		self.instrument.serial.baudrate = baud_rate   # Baud rate 9600 as listed in doc
 		self.instrument.serial.bytesize = byte_size
-		self.instrument.serial.timeout = 0.5     # This had to be increased from the default setting else it did not work !
+		self.instrument.serial.timeout = 0.95     # This had to be increased from the default setting else it did not work !
 		self.instrument.mode = minimalmodbus.MODE_RTU  #RTU mode
 
 	def read(self, reg_addr, decimal_places):
-		return self.instrument.read_register(reg_addr, decimal_places)
+		res = self.instrument.read_register(reg_addr, decimal_places)
+		print("Read -- ", reg_addr, decimal_places, "+", res)
+		return res
 		
 	def read_block(self, reg_addr, size_of_block):
 		return self.instrument.read_registers(reg_addr, size_of_block)
@@ -71,16 +73,16 @@ class Dps5005:
 		return self.function(0x01, self.limits.decimals_iset, RWaction, value, self.limits.current_set_max, self.limits.current_set_min) # reg_addr, decimal_places, RWaction, value, max_value, min_value 
 
 	def voltage(self):	# R
-		return self.function(0x02, self.limits.decimals_v) 
+		return self.function(11, self.limits.decimals_v) 
 
 	def current(self):	# R
-		return self.function(0x03, self.limits.decimals_i)
+		return self.function(12, self.limits.decimals_i)
 
 	def power(self):	# R
-		return self.function(0x04, self.limits.decimals_power)
+		return self.function(13, self.limits.decimals_power)
 
 	def voltage_in(self):	# R
-		return self.function(0x05, self.limits.decimals_vin)
+		return self.function(14, self.limits.decimals_vin)
 
 	def lock(self, RWaction='r', value=0):	# R/W
 		return self.function(0x06, 0, RWaction, value, self.limits.lock_set_max, self.limits.lock_set_min) # reg_addr, decimal_places, RWaction, value, max_value, min_value
@@ -167,6 +169,7 @@ class Dps5005:
 		if RWaction != 'w':
 			try:
 				a = self.serial_data.read(reg_addr, decimal_places)
+				print("READ", reg_addr, decimal_places, " = ", a)
 			except IOError:
 				print("Failed to read from instrument")
 		else:
