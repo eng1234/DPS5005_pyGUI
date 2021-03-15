@@ -120,10 +120,10 @@ pip3 install -r requirements.txt
 
 ## Download & run:
 
-Clone the repo
+Clone the repo, then :
 
 ```
-cd RS305P_pyGUI/source_files/
+cd DPS5005_pyGUI/source_files/
 ```
 ```
 python dps_GUI_program.py
